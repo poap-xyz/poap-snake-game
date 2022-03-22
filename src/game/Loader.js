@@ -3,6 +3,8 @@ import snakeHead from '../asset/img/head.png'
 import snakeEye from '../asset/img/eye.png'
 import food from '../asset/img/food.png'
 import check from '../asset/img/check.png'
+import keys from '../asset/img/keys.png'
+import swipe from '../asset/img/swipe.png'
 
 
 class Loader {
@@ -15,6 +17,8 @@ class Loader {
     this.loadImage('snake.head', snakeHead)
     this.loadImage('snake.eye', snakeEye)
     this.loadImage('ui.check', check)
+    this.loadImage('ui.keys', keys)
+    this.loadImage('ui.swipe', swipe)
 
     this.waitForReady(onReady)
   }
