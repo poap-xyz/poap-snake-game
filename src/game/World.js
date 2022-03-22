@@ -25,7 +25,7 @@ class World  {
     this.input = input
     this.camera = camera
 
-    this.UI = new UI(rows, cols, ratio, loader, input)
+    this.UI = new UI(rows, cols, ratio, loader, input, this.reset.bind(this))
 
     this.board = new Board(rows, cols, loader)
     this.snake = new Snake(rows, cols, ratio, loader, input)
@@ -61,6 +61,7 @@ class World  {
     this.started = false
 
     this.UI.gameover = false
+    this.UI.indicator = true
 
     this.initialize()
   }
@@ -77,6 +78,9 @@ class World  {
           keys.KeyD || keys.ArrowRight || swipe.right
       ){
         this.started = true
+        this.UI.indicator = false
+
+        this.UI.draw(this.score)
       }
 
       return

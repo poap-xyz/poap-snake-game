@@ -1,4 +1,5 @@
 import { TileSize, UISize } from '../constant'
+import { isTouchDevice } from '../lib'
 import Drawing from './Drawing'
 
 
@@ -9,9 +10,10 @@ class UI {
   cols = 0
   canvas = null
   success = false
+  indicator = true
   gameover = false
 
-  constructor(rows, cols, ratio, loader, input){
+  constructor(rows, cols, ratio, loader, input, reset){
     this.rows = rows
     this.cols = cols
     this.loader = loader
@@ -22,15 +24,32 @@ class UI {
       rows * TileSize + UISize,
       ratio
     )
+
+    this.reset = reset
   }
 
   update(){
+    if( this.gameover && this.input.pressing ){
+      const { x, y } = this.input
 
+      const buttonWidth = 140
+      const buttonHeight = 44
+
+      const buttonX = this.drawing.width / 2 - buttonWidth / 2
+      const buttonY = (this.drawing.height - UISize) / 2 - buttonHeight / 2
+
+      if( x > buttonX && x < buttonX + buttonWidth && y > buttonY && y < buttonY + buttonHeight ){
+        this.reset()
+      }
+    }
   }
 
   draw(score){
     const foodImage = this.loader.getImage('board.food')
     const check = this.loader.getImage('ui.check')
+    const keys = this.loader.getImage('ui.keys')
+    const swipe = this.loader.getImage('ui.swipe')
+
     const { success } = this
     const top = this.rows * TileSize
     let roundWidth = 106
@@ -92,11 +111,39 @@ class UI {
       if( this.gameover ){
         this.drawPlayAgain({ context, width, height })
       }
+      else if( this.indicator ){
+        if( isTouchDevice() ){
+          context.drawImage(
+            swipe,
+            0,
+            0,
+            202,
+            168,
+            width / 2 - 50,
+            height - 172,
+            101,
+            84
+          )
+        }
+        else {
+          context.drawImage(
+            keys,
+            0,
+            0,
+            232,
+            152,
+            width / 2 - 116 / 2,
+            height - 172,
+            116,
+            76
+          )
+        }
+      }
     })
   }
 
   drawPlayAgain({ context, width, height }){
-    context.fillStyle = 'rgba(0,0,0,.3)'
+    context.fillStyle = 'rgba(0,0,0,.4)'
     context.fillRect(0, 0, context.canvas.width, context.canvas.height)
 
     const buttonWidth = 140
@@ -104,7 +151,6 @@ class UI {
 
     const buttonX = width / 2 - buttonWidth / 2
     const buttonY = (height - UISize) / 2 - buttonHeight / 2
-
 
     roundRect(context, buttonX, buttonY, buttonWidth, buttonHeight, 22)
 
