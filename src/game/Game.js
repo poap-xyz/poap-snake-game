@@ -17,7 +17,7 @@ class Game {
   constructor(rows, cols, ratio, targetScore, onComplete, canvas){
     this.context = canvas.getContext('2d')
     this.loader  = new Loader()
-    this.input   = new Input()
+    this.input   = new Input(canvas.getBoundingClientRect())
     this.camera  = new Camera(ratio)
     this.world   = new World(
       rows,

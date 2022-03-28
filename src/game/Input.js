@@ -3,7 +3,8 @@ import { isTouchDevice } from '../lib'
 
 
 class Input {
-  constructor(){
+  constructor(rect){
+    this.rect = rect
     this.keys = {}
     this.x = null
     this.y = null
@@ -29,8 +30,8 @@ class Input {
   }
 
   handleTouchStart = ({ touches: [ touch ] }) => {
-    this.x = touch.clientX
-    this.y = touch.clientY
+    this.x = touch.pageX - this.rect.x
+    this.y = touch.pageY - this.rect.y
 
     this.pressing = true
   }
@@ -40,8 +41,8 @@ class Input {
       return
     }
 
-    const x = touch.clientX
-    const y = touch.clientY
+    const x = touch.pageX - this.rect.x
+    const y = touch.pageY - this.rect.y
 
     const xDiff = this.x - x
     const yDiff = this.y - y
@@ -64,9 +65,9 @@ class Input {
     }
   }
 
-  handleTouchEnd = ({ layerX, layerY }) => {
-    this.x = layerX
-    this.y = layerY
+  handleTouchEnd = ({ pageX, pageY }) => {
+    this.x = pageX - this.rect.x
+    this.y = pageY - this.rect.y
 
     this.swipe = {
       up: false,
@@ -78,20 +79,20 @@ class Input {
     this.pressing = false
   }
 
-  handleMouseMove = ({ layerX, layerY }) => {
-    this.x = layerX
-    this.y = layerY
+  handleMouseMove = ({ pageX, pageY }) => {
+    this.x = pageX - this.rect.x
+    this.y = pageY - this.rect.y
   }
 
-  handleMouseDown = ({ layerX, layerY }) => {
-    this.x = layerX
-    this.y = layerY
+  handleMouseDown = ({ pageX, pageY }) => {
+    this.x = pageX - this.rect.x
+    this.y = pageY - this.rect.y
     this.pressing = true
   }
 
-  handleMouseUp = ({ layerX, layerY }) => {
-    this.x = layerX
-    this.y = layerY
+  handleMouseUp = ({ pageX, pageY }) => {
+    this.x = pageX - this.rect.x
+    this.y = pageY - this.rect.y
     this.pressing = false
   }
 
