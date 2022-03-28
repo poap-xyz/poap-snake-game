@@ -6,14 +6,12 @@ function Demo() {
   const cols = Math.min(14, Math.floor(window.innerWidth / 32))
 
   return (
-    <>
-      <SnakeGame
-        rows={rows}
-        cols={cols}
-        targetScore={5}
-        onComplete={() => console.log('Completed')}
-      />
-    </>
+    <SnakeGame
+      rows={rows}
+      cols={cols}
+      targetScore={5}
+      onComplete={() => console.log('Completed')}
+    />
   )
 }
 
