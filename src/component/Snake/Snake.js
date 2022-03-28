@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { memo, useRef, useEffect } from 'react'
 import Game from '../../game/Game'
 import { TileSize, UISize } from '../../constant'
 
@@ -40,4 +40,11 @@ function Snake({ rows, cols, targetScore, onComplete }){
   )
 }
 
-export default Snake
+export default memo(
+  Snake,
+  (prevProps, nextProps) => {
+    return prevProps.rows === nextProps.rows
+        && prevProps.cols === nextProps.cols
+        && prevProps.targetScore === nextProps.targetScore
+  }
+)
